@@ -18,8 +18,5 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// define semua models yang ada pada aplikasi
-db.vechtype = require('./vehctype_model')(sequelize, Sequelize);
-db.vehicle = require('./vehicle_model')(sequelize, Sequelize);
-db.transaction = require('./transaction_model')(sequelize, Sequelize);
+db.user = require('./user_model')(sequelize, Sequelize);
 module.exports = db;

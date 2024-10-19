@@ -1,31 +1,25 @@
 const express = require('express');
 const cors = require('cors')
 
-
 const app = express();
 app.use(cors())
 const port = 3000;
+const bodyParser = require('body-parser')
+const jsonParser = bodyParser.json()
 
-const vehcType = require('./routes/vehctype_routes');
-const vehicle = require('./routes/vehicle_routes');
-const transaction = require('./routes/transaction_routes');
+const registration = require('./routes/registration_routes');
+const responseSender = require('./middleware/responseSender');
 
-const db = require('./model');
-db.sequelize.sync();
-
+// const db = require('./model');
+// db.sequelize.sync();
 
 app.get('/', (req, res) => {
     res.send('Started Working, Express!');
 });
 
-app.use('/api/vehctype', vehcType);
-app.use('/api/vehicle', vehicle);
-app.use('/api/transaction', transaction);
+app.use('/registration', jsonParser, registration);
+app.use(responseSender)
 
-app.use(function (req, res, next) {
-    // Pass to next layer of middleware
-    next();
-});
 app.listen(port, () => {
     console.log(`Server listening at port: ${port}`);
 });
