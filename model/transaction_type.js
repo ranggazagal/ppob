@@ -1,13 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
     const TransactionTypePPOB = sequelize.define('transaction_type_ppob', {
-        transcation_type_id: {
+        transaction_type_id: {
             primaryKey: true,
             type: Sequelize.NUMBER(11),
         },
-        transcation_type_code: {
+        transaction_type_code: {
             type: Sequelize.TEXT,
         },
-        transcation_type_operate: {
+        transaction_type_operate: {
             type: Sequelize.NUMBER(1),
         },
     }, {

@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.TEXT(15),
         },
         transaction_date: {
-            type: Sequelize.DATETIME,
+            type: Sequelize.DATE,
         },
         transaction_amount: {
             type: Sequelize.NUMBER(11),
@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
         updated_balance: {
             type: Sequelize.NUMBER(11),
         },
-        transcation_type_id: {
+        transaction_type_id: {
             type: Sequelize.NUMBER(11),
         },
         user_id: {

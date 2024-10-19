@@ -22,4 +22,6 @@ db.sequelize = sequelize;
 db.user = require('./user_model')(sequelize, Sequelize);
 db.banner = require('./banner_model')(sequelize, Sequelize);
 db.service_ppob = require('./service_model')(sequelize, Sequelize);
+db.transaction_type = require('./transaction_type')(sequelize, Sequelize);
+db.transaction = require('./transaction')(sequelize, Sequelize);
 module.exports = db;

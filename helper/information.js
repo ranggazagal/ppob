@@ -1,5 +1,3 @@
-const membershipHelper = require("../helper/membership");
-
 const db = require("../model");
 const banner = db.banner;
 const service_ppob = db.service_ppob;
