@@ -1,10 +1,10 @@
 module.exports = {
-    HOST: 'mysql.railway.internal',
+    HOST: 'localhost',
     USER: 'root',
-    PASSWORD: 'PyTNSKKFXFdGGHAbuOdZInbRwWTfJDmk',
-    DB: 'railway',
+    PASSWORD: '',
+    DB: 'ppob',
+    PORT: '3306',
     dialect: 'mysql',
-    PORT:'3306',
     pool: {
         max: 5,
         min: 0,
