@@ -61,18 +61,37 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.profile = async (req, res, next) => {
-    try {
-      console.log(req.userId)
-      let user = await membershipHelper.getUserById(req.userId)
-      res.responseStatus = "0";
-      res.responseMessage = "Login Sukses";
-      res.responseData = {user};
-      return next();
-    } catch (e) {
-      res.responseStatus = e.Status || 108;
-      res.responseMessage = e;
-      res.responseData = null;
-      return next();
+exports.getProfile = async (req, res, next) => {
+  try {
+    let user = await membershipHelper.getUserById(req.userId);
+    res.responseStatus = "0";
+    res.responseMessage = "Sukses";
+    res.responseData = { user };
+    return next();
+  } catch (e) {
+    res.responseStatus = e.Status || 108;
+    res.responseMessage = e;
+    res.responseData = null;
+    return next();
+  }
+};
+
+exports.updateProfile = async (req, res, next) => {
+  try {
+    let dataUpdate = {
+        user_first_name:req.body.first_name,
+        user_last_name:req.body.last_name
     }
-  };
+    
+    let user = await membershipHelper.updateProfile(req.userId, dataUpdate);
+    res.responseStatus = "0";
+    res.responseMessage = "Update Pofile berhasil";
+    res.responseData = { user };
+    return next();
+  } catch (e) {
+    res.responseStatus = e.Status || 108;
+    res.responseMessage = e;
+    res.responseData = null;
+    return next();
+  }
+};

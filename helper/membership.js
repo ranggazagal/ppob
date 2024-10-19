@@ -56,3 +56,17 @@ exports.getUserById = async (id) => {
   }
   return data
 }
+
+exports.updateProfile = async (id, dataUpdate) => {
+  //check data if exist
+  rawQuery = "UPDATE user_ppob set user_first_name = '" + dataUpdate.user_first_name +
+    "', user_last_name = '" + dataUpdate.user_last_name + 
+    "' WHERE user_id = " + id
+  await db.sequelize.query(rawQuery)
+  let data = await user.findByPk(id)
+  if(!data) {
+    throw ('Token tidak tidak valid atau kadaluwarsa')
+  }
+
+  return data
+}
