@@ -11,6 +11,7 @@ exports.registrationSave = async (data) => {
           res(result.use);
         })
         .catch((error) => {
+          console.log(error)
           rej('Rejection on insert data product')
         });
       })

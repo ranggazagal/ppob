@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define('user', {
+    const User = sequelize.define('user_ppob', {
         user_id: {
             primaryKey: true,
             type: Sequelize.NUMBER(11),
