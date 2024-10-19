@@ -1,12 +1,12 @@
 const dbConfig = require('../config/db_config');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(
-    dbConfig.DB, 
-    dbConfig.USER, 
-    dbConfig.PASSWORD, {
-        port: dbConfig.PORT,
-        host: dbConfig.HOST,
-        dialect: dbConfig.dialect,
+    process.env.DB_NAME, 
+    process.env.DB_USER, 
+    process.env.DB_PASSWORD, {
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        dialect: 'mysql',
         operatorAlias: false,
         pool: {
             max: dbConfig.pool.max,
