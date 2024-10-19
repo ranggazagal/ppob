@@ -6,7 +6,9 @@ exports.emailValidation = async(reqEmail) => {
     }, {
         email: 'required|email',
     }).fails(() => {
-        throw ("Paramter email tidak sesuai format");
+        throw ({
+            Message:"Paramter email tidak sesuai format",
+            Status:102});
     });
 }
 
@@ -16,6 +18,6 @@ exports.passwordValidation = async (reqPassword) => {
     }, {
         email: 'required|min:8',
     }).fails(() => {
-        throw ("Password minimal 8");
+        throw ({Message:"Paramter email tidak sesuai format", Status:102});
     });
 }
