@@ -9,7 +9,8 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
-const registration = require('./routes/registration_routes');
+const membership = require('./routes/membership_routes');
+// const information = require('./routes/information_routes');
 const responseSender = require('./middleware/responseSender');
 
 // const db = require('./model');
@@ -19,7 +20,7 @@ app.get('/', (req, res) => {
     res.send('Started Working, Express!');
 });
 
-app.use('/registration', jsonParser, registration);
+app.use('/', jsonParser, membership);
 app.use(responseSender)
 
 app.listen(port, () => {
