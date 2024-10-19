@@ -2,7 +2,6 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 const db = require("../model");
-const { email } = require("validatorjs/src/lang/en");
 const user = db.user;
 
 exports.registrationSave = async (data) => {

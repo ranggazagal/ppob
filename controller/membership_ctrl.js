@@ -1,5 +1,3 @@
-// const db = require("../model");
-// const Transaction = db.transaction;
 const membershipHelper = require("../helper/membership");
 const validationHelper = require("../helper/validation");
 

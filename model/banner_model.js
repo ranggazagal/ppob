@@ -1,25 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define('user_ppob', {
-        user_id: {
+    const Banner = sequelize.define('banner_ppob', {
+        banner_id: {
             primaryKey: true,
             type: Sequelize.NUMBER(11),
         },
-        user_first_name: {
+        banner_name: {
             type: Sequelize.TEXT,
         },
-        user_last_name: {
+        banner_image: {
             type: Sequelize.TEXT,
         },
-        user_password: {
-            type: Sequelize.TEXT,
-        },
-        user_email: {
+        banner_description: {
             type: Sequelize.TEXT,
         },
         is_active: {
-            type: Sequelize.NUMBER(1),
-        },
-        user_profile_image: {
             type: Sequelize.NUMBER(1),
         },
     }, {
@@ -28,5 +22,5 @@ module.exports = (sequelize, Sequelize) => {
         updatedAt: false,
         freezeTableName:true,
     });
-    return User;
+    return Banner;
 }
