@@ -63,10 +63,11 @@ exports.login = async (req, res, next) => {
 
 exports.getProfile = async (req, res, next) => {
   try {
-    let user = await membershipHelper.getUserById(req.userId);
+    let user = await membershipHelper.getUserById(req.userId)
+    let userResponse = membershipHelper.userResponseBuilder(user)
     res.responseStatus = "0";
     res.responseMessage = "Sukses";
-    res.responseData = { user };
+    res.responseData = { userResponse };
     return next();
   } catch (e) {
     res.responseStatus = e.Status || 108;
@@ -82,11 +83,16 @@ exports.updateProfile = async (req, res, next) => {
         user_first_name:req.body.first_name,
         user_last_name:req.body.last_name
     }
-    
+   
+    //handler for file
+    dataUpdate = await membershipHelper.imageHelper(req, dataUpdate)
+
     let user = await membershipHelper.updateProfile(req.userId, dataUpdate);
+    let userResponse = membershipHelper.userResponseBuilder(user)
+    
     res.responseStatus = "0";
     res.responseMessage = "Update Pofile berhasil";
-    res.responseData = { user };
+    res.responseData = { userResponse };
     return next();
   } catch (e) {
     res.responseStatus = e.Status || 108;

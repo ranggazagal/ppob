@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
         is_active: {
             type: Sequelize.NUMBER(1),
         },
+        user_profile_image: {
+            type: Sequelize.NUMBER(1),
+        },
     }, {
         // don't add the timestamp attributes (updatedAt, createdAt)
         timestamps: false,
