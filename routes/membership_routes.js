@@ -4,10 +4,10 @@ const verifyToken = require("../middleware/authMiddleware");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, "./assets/");
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
   fileFilter: (req, file, cb) => {
@@ -26,6 +26,11 @@ router.post("/registration", membershipController.registration);
 router.post("/login", membershipController.login);
 router.get("/profile", verifyToken, membershipController.getProfile);
 router.put("/profile/update", verifyToken, membershipController.updateProfile);
-router.put("/profile/image", verifyToken, upload.single('image'), membershipController.updateProfile);
+router.put(
+  "/profile/image",
+  verifyToken,
+  upload.single("image"),
+  membershipController.updateProfile
+);
 
 module.exports = router;
