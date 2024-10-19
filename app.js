@@ -11,6 +11,7 @@ const jsonParser = bodyParser.json()
 
 const membership = require('./routes/membership_routes');
 const information = require('./routes/information_routes');
+const transaction = require('./routes/transaction_routes');
 const responseSender = require('./middleware/responseSender');
 
 // const db = require('./model');
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/', jsonParser, membership);
 app.use('/', jsonParser, information);
+app.use('/', jsonParser, transaction);
 app.use(responseSender)
 
 app.listen(port, () => {
