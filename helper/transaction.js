@@ -158,7 +158,7 @@ exports.getHistoryTransaction = async (limit, offset, userId) => {
     let rawQry = 
     "SELECT a.transaction_code, b.transaction_type_code, a.transaction_amount, a.transaction_date " +
     "FROM transaction_ppob a INNER JOIN transaction_type_ppob b on a.transaction_type_id = b.transaction_type_id " +
-    "WHERE user_id = :userId " +
+    "WHERE a.user_id = :userId " +
     "ORDER BY a.transaction_date DESC"
 
     if(limit) {
