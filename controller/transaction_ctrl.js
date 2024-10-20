@@ -23,29 +23,7 @@ exports.saveTopup = async (req, res, next) => {
     let amount = req.body.top_up_amount;
     await validationHelper.topupValidation();
 
-    let latestBalance = await transactionHelper.getBalance(req.userId);
-    let topupType = await transactionHelper.getTrxType(transaction_type);
-    let date = new Date();
-    let updatedBalance = await transactionHelper.amountCounter(
-      topupType,
-      latestBalance,
-      amount
-    );
-    let counterInvoice = await transactionHelper.getCounter();
-    let invoiceId = await transactionHelper.generateInvoice(counterInvoice);
-
-    let dataSave = {
-      transaction_code: invoiceId,
-      transaction_date: date,
-      transaction_amount: amount,
-      latest_balance: latestBalance,
-      updated_balance: updatedBalance,
-      transaction_type_id: topupType.transaction_type_id,
-      user_id: req.userId,
-      service_id: null,
-      counter_invoice: counterInvoice
-    };
-
+    let dataSave = await transactionHelper.generateTransactionData(req.userId, amount, transaction_type , null)
     let balance = await transactionHelper.saveTransaction(dataSave, transaction_type);
 
     res.responseStatus = "0";
