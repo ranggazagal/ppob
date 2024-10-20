@@ -9,7 +9,6 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
-const sql = require('./routes/sql_routes');
 const membership = require('./routes/membership_routes');
 const information = require('./routes/information_routes');
 const transaction = require('./routes/transaction_routes');
@@ -25,7 +24,6 @@ app.get('/', (req, res) => {
 app.use('/', jsonParser, membership);
 app.use('/', jsonParser, information);
 app.use('/', jsonParser, transaction);
-app.use('/sql', jsonParser, sql);
 app.use(responseSender)
 
 app.listen(port, () => {
