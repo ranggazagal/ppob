@@ -18,7 +18,7 @@ exports.passwordValidation = async (reqPassword) => {
     }, {
         email: 'required|min:8',
     }).fails(() => {
-        throw ({Message:"Paramter email tidak sesuai format", Status:102});
+        throw ({Message:"Password Minimal 8 karakter", Status:102});
     });
 }
 

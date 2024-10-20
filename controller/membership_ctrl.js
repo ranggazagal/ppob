@@ -52,8 +52,9 @@ exports.login = async (req, res, next) => {
     res.responseData = { token: token };
     return next();
   } catch (e) {
+    console.log(e)
     res.responseStatus = e.Status || 103;
-    res.responseMessage = e.Message;
+    res.responseMessage = e.Message || e;
     res.responseData = null;
     return next();
   }

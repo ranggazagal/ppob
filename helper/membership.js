@@ -38,6 +38,9 @@ exports.findUserByUsernameAndPassword = async (data) => {
       .query(rawQuery)
       .then((data) => {
         let userSelected = data[0][0];
+        if (!userSelected) {
+          throw "Email atau password, salah!";
+        }
         let token = jwt.sign(
           { userId: userSelected.user_id },
           "your-secret-key",
@@ -48,8 +51,7 @@ exports.findUserByUsernameAndPassword = async (data) => {
         res(token);
       })
       .catch((error) => {
-        console.log(error);
-        rej("Email atau password, salah!");
+        rej(error);
       });
   });
 };
@@ -68,23 +70,26 @@ exports.getUserById = async (id) => {
 };
 
 exports.updateProfile = async (id, dataUpdate) => {
+  let rawQuery;
 
-  let rawQuery =
-    "UPDATE user_ppob set user_first_name = '" +
-    dataUpdate.user_first_name +
-    "', user_last_name = '" +
-    dataUpdate.user_last_name +
-    "' WHERE user_id = " +
-    id;
-
-  if(dataUpdate.user_profile_image) {
+  if (dataUpdate.user_profile_image) {
     rawQuery =
-    "UPDATE user_ppob set user_profile_image = '" +
-    dataUpdate.user_profile_image +
-    "' WHERE user_id = " +
-    id;
+      "UPDATE user_ppob set user_profile_image = '" +
+      dataUpdate.user_profile_image +
+      "' WHERE user_id = " +
+      id;
+  } else if (dataUpdate.user_first_name && dataUpdate.user_last_name) {
+    rawQuery =
+      "UPDATE user_ppob set user_first_name = '" +
+      dataUpdate.user_first_name +
+      "', user_last_name = '" +
+      dataUpdate.user_last_name +
+      "' WHERE user_id = " +
+      id;
+  } else {
+    throw "Gagal mengupdate data, data yang diinputkan tidak valid";
   }
- 
+
   await db.sequelize.query(rawQuery);
   let data = await user.findByPk(id);
   if (!data) {
@@ -96,13 +101,13 @@ exports.updateProfile = async (id, dataUpdate) => {
 
 exports.imageHelper = async (req, dataUpdate) => {
   if (req.file) {
-    let file = req.file
+    let file = req.file;
     let allowedFileType = ["jpeg", "png"];
     if (!allowedFileType.includes(file.mimetype.split("/")[1])) {
-      throw ("Format Image tidak sesuai");
+      throw "Format Image tidak sesuai";
     }
     dataUpdate.user_profile_image = "/assets/" + req.file.filename;
-    console.log(dataUpdate)
+    console.log(dataUpdate);
   }
   return dataUpdate;
 };
@@ -112,6 +117,6 @@ exports.userResponseBuilder = (user) => {
     email: user.user_email,
     first_name: user.user_first_name,
     last_name: user.user_last_name,
-    profile_image: user.user_profile_image
-  }
-}
+    profile_image: user.user_profile_image,
+  };
+};
