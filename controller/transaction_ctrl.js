@@ -19,16 +19,24 @@ exports.getBalance = async (req, res, next) => {
 
 exports.saveTopup = async (req, res, next) => {
   try {
-    let transaction_type = "TOPUP"
+    let transaction_type = "TOPUP";
     let amount = req.body.top_up_amount;
     await validationHelper.topupValidation();
 
-    let dataSave = await transactionHelper.generateTransactionData(req.userId, amount, transaction_type , null)
-    let balance = await transactionHelper.saveTransaction(dataSave, transaction_type);
+    let dataSave = await transactionHelper.generateTransactionData(
+      req.userId,
+      amount,
+      transaction_type,
+      null
+    );
+    let balance = await transactionHelper.saveTransaction(
+      dataSave,
+      transaction_type
+    );
 
     res.responseStatus = "0";
     res.responseMessage = "Top Up Balance berhasil";
-    res.responseData = { balance:balance.updated_balance };
+    res.responseData = { balance: balance.updated_balance };
     return next();
   } catch (e) {
     res.responseStatus = e.Status || 108;
@@ -40,12 +48,20 @@ exports.saveTopup = async (req, res, next) => {
 
 exports.savePayment = async (req, res, next) => {
   try {
-    let transaction_type = "PAYMENT"
+    let transaction_type = "PAYMENT";
     let servCode = req.body.service_code;
-    let servicePpob = await transactionHelper.getServicePPOB(servCode)
-    let amount = servicePpob.service_tarif
-    let dataSave = await transactionHelper.generateTransactionData(req.userId, amount, transaction_type , servicePpob.service_id)
-    let result = await transactionHelper.saveTransaction(dataSave, transaction_type);
+    let servicePpob = await transactionHelper.getServicePPOB(servCode);
+    let amount = servicePpob.service_tarif;
+    let dataSave = await transactionHelper.generateTransactionData(
+      req.userId,
+      amount,
+      transaction_type,
+      servicePpob.service_id
+    );
+    let result = await transactionHelper.saveTransaction(
+      dataSave,
+      transaction_type
+    );
     res.responseStatus = "0";
     res.responseMessage = "Transaksi Berhasil";
     res.responseData = result;
@@ -60,9 +76,16 @@ exports.savePayment = async (req, res, next) => {
 
 exports.getHistory = async (req, res, next) => {
   try {
+    let limit = req.query.limit;
+    let offset = req.query.offset;
+    let result = await transactionHelper.getHistoryTransaction(limit, offset);
     res.responseStatus = "0";
     res.responseMessage = "Sukses";
-    res.responseData = {};
+    res.responseData = {
+      offset: offset,
+      limit:limit,
+      records:result,
+    };
     return next();
   } catch (e) {
     res.responseStatus = e.Status || 108;

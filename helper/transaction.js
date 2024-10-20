@@ -1,5 +1,4 @@
 const db = require("../model");
-const transaction = db.transaction;
 
 exports.getBalance = async (userId) => {
   let balance = 0;
@@ -103,7 +102,6 @@ exports.saveTransaction = async (dataSave, type) => {
     rawQrySaved =
     "SELECT updated_balance from transaction_ppob WHERE transaction_id = :transaction_id"
   }
-  console.log(resltQries[0])
 
   let resultQryPayment = await db.sequelize.query(rawQrySaved, {
     replacements: {
@@ -153,10 +151,35 @@ exports.generateTransactionData = async (userId, amount, trxType, serviceId) => 
       service_id: serviceId,
       counter_invoice: counterInvoice
     };
-    console.log(topupType.transaction_type_id)
     return dataSave;
 }
 
+exports.getHistoryTransaction = async (limit, offset) => {
+    let rawQry = 
+    "SELECT a.transaction_code, b.transaction_type_code, a.transaction_amount, a.transaction_date " +
+    "FROM transaction_ppob a INNER JOIN transaction_type_ppob b on a.transaction_type_id = b.transaction_type_id " + 
+    "ORDER BY a.transaction_date DESC"
+
+    if(limit) {
+        rawQry += " LIMIT " + limit
+    }
+    if(offset) {
+        rawQry += " OFFSET " + offset
+    }
+
+    let resltQryes = await db.sequelize.query(rawQry)
+    
+    let result = []
+    resltQryes[0].map((data) => {
+        result.push({
+            invoice_number:data.transaction_code,
+            transaction_type:data.transaction_type_code,
+            total_amount:data.transaction_amount,
+            created_on:data.transaction_date
+        })
+    })
+    return result;
+}
 
 let dateDDMMYYYYFormat = () => {
   const date = new Date();
