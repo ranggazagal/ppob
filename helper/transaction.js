@@ -47,7 +47,7 @@ exports.amountCounter = async (topupType, balance, amount) => {
 exports.getCounter = async () => {
   let counter = 0;
   let rawQry =
-    "Select counter from config_helper where helper_code = :code " +
+    "Select counter from transaction_config_helper where helper_code = :code " +
     "limit 0,1";
   let resltQryes = await db.sequelize.query(rawQry, {
     replacements: { code: "invoice_counter" },
@@ -66,7 +66,7 @@ exports.saveTransaction = async (dataSave, type) => {
     "VALUES(:transaction_code, :transaction_date, :transaction_amount, :latest_balance, :updated_balance, :transaction_type_id, :user_id, :service_id)";
 
   let rawQryCounter =
-    "UPDATE config_helper SET counter=:counter WHERE helper_code=:code";
+    "UPDATE transaction_config_helper SET counter=:counter WHERE helper_code=:code";
   let resltQries = await db.sequelize.query(rawQry, {
     replacements: {
       transaction_code: dataSave.transaction_code,
