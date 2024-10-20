@@ -78,7 +78,7 @@ exports.getHistory = async (req, res, next) => {
   try {
     let limit = req.query.limit;
     let offset = req.query.offset;
-    let result = await transactionHelper.getHistoryTransaction(limit, offset);
+    let result = await transactionHelper.getHistoryTransaction(limit, offset, req.userId);
     res.responseStatus = "0";
     res.responseMessage = "Sukses";
     res.responseData = {

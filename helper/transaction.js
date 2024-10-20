@@ -154,10 +154,11 @@ exports.generateTransactionData = async (userId, amount, trxType, serviceId) => 
     return dataSave;
 }
 
-exports.getHistoryTransaction = async (limit, offset) => {
+exports.getHistoryTransaction = async (limit, offset, userId) => {
     let rawQry = 
     "SELECT a.transaction_code, b.transaction_type_code, a.transaction_amount, a.transaction_date " +
-    "FROM transaction_ppob a INNER JOIN transaction_type_ppob b on a.transaction_type_id = b.transaction_type_id " + 
+    "FROM transaction_ppob a INNER JOIN transaction_type_ppob b on a.transaction_type_id = b.transaction_type_id " +
+    "WHERE user_id = :userId " +
     "ORDER BY a.transaction_date DESC"
 
     if(limit) {
@@ -167,7 +168,9 @@ exports.getHistoryTransaction = async (limit, offset) => {
         rawQry += " OFFSET " + offset
     }
 
-    let resltQryes = await db.sequelize.query(rawQry)
+    let resltQryes = await db.sequelize.query(rawQry, {
+      replacements: { userId: userId },
+    })
     
     let result = []
     resltQryes[0].map((data) => {
